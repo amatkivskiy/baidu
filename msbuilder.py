@@ -1,6 +1,7 @@
 import os
 import subprocess
 import datetime
+from util import run_command
 
 __author__ = 'maa'
 
@@ -11,35 +12,27 @@ class MsBuilder:
         else:
             self.msbuild = msbuild
 
-    def build(self, csprojPath, *args):
+    def build_with_params(self, csprojPath, targets, properties):
         if not os.path.isfile(self.msbuild):
             raise Exception('MsBuild.exe not found. path = ' + self.msbuild)
 
         start = datetime.datetime.now()
         print('STARTED BUILD - ' + start.strftime('%Y-%m-%d %H:%M:%S'))
 
-        self.printConfig(csprojPath, args)
+        params = [self.msbuild, csprojPath];
+
+        params.append('/t:' + ';'.join(targets))
+        params.append('/p:' + ';'.join(properties))
+
+        return run_command(params)
+
+    def build(self, csprojPath, args):
+        if not os.path.isfile(self.msbuild):
+            raise Exception('MsBuild.exe not found. path = ' + self.msbuild)
+
+        start = datetime.datetime.now()
+        print('STARTED BUILD - ' + start.strftime('%Y-%m-%d %H:%M:%S'))
 
         params = [self.msbuild, csprojPath] + list(args);
 
-        returnCode = subprocess.call(params)
-        if returnCode != 1:
-            print('BUILD: SUCCEEDED', start)
-        else:
-            print('BUILD: FAILED', start)
-
-        return returnCode != 1
-
-    def printConfig(self, csprojPath, params):
-        print('Printing MsBuild params:')
-        print('=' * 20)
-
-        print('Project path: ' + csprojPath)
-
-        print('MSBuild.exe params : ')
-        print('*' * 20)
-        for param in params:
-            print(param)
-
-        print('*' * 20)
-        print('=' * 20)
+        return run_command(params)

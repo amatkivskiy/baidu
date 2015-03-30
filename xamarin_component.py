@@ -15,7 +15,7 @@ class XamComponent:
 
         run_command(args)
 
-    def clean_xamarin_cache(self, user_directory):
+    def clean_xamarin_cache(self):
         path = os.getenv('LOCALAPPDATA') + r"\Xamarin\Cache"
         print('Deleting folder : ' + path)
         shutil.rmtree(path, True)
