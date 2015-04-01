@@ -1,4 +1,5 @@
 import os
+import socket
 import subprocess
 import shutil
 
@@ -40,3 +41,23 @@ def create_or_clean_folder(folder_path):
                 if os.path.isfile(file_path):
                     os.unlink(file_path)
     pass
+
+
+def check_if_port_is_open(ip, port):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    result = sock.connect_ex((ip, port))
+    sock.close()
+
+    return result != 0
+
+def find_open_port(ip, starting_port, max_port):
+    port = starting_port
+
+    while port <= max_port:
+        if check_if_port_is_open(ip, port):
+            return port
+        else:
+            port += 1
+
+    raise ConnectionError('Open port was not found between ' + str(starting_port) + ' and ' + str(max_port))
