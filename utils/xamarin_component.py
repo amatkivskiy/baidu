@@ -1,6 +1,8 @@
 import os
 import shutil
-from util import run_command
+
+from utils.util import run_command
+
 
 __author__ = 'maa'
 
