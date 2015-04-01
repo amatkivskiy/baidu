@@ -1,5 +1,4 @@
 import os
-import subprocess
 import datetime
 from util import run_command
 
@@ -33,6 +32,22 @@ class MsBuilder:
         start = datetime.datetime.now()
         print('STARTED BUILD - ' + start.strftime('%Y-%m-%d %H:%M:%S'))
 
-        params = [self.msbuild, csprojPath] + list(args);
+        params = [self.msbuild, csprojPath] + list(args)
 
         return run_command(params)
+
+    def get_files_from_project_bin_folder(self, csproj, configuration, do_return_full_paths=False):
+        name = os.path.dirname(os.path.realpath(csproj))
+        bin_config_path = os.path.join(name, 'bin', configuration)
+
+        files = os.listdir(bin_config_path)
+
+        if not do_return_full_paths:
+            return files
+
+        files_full_path = list()
+
+        for file in files:
+            files_full_path.append(os.path.join(bin_config_path, file))
+
+        return files_full_path
