@@ -10,7 +10,7 @@ def run_function(task_name, config, params):
     try:
         dictionary[task_name](config, params)
     except KeyError:
-        print('No functions found for ' + task_name)
+        print('No function found for ' + task_name)
     pass
 
 def split_task_name(task_name):
@@ -27,7 +27,10 @@ if __name__ == '__main__':
     p = re.compile('\((.*?)\)')
 
     for task in config['tasks']:
-        params = p.findall(task)
+        params = p.findall(task)[0].split(',')
+
+        params = [param.strip() for param in params]
+
         task_name = split_task_name(task)
         run_function(task_name, config, params)
 
