@@ -1,3 +1,4 @@
+from utils.adb import Adb
 from utils.msbuilder import MsBuilder
 from utils.nuget import NuGet
 from utils.util import create_or_clean_folder
@@ -38,10 +39,10 @@ def restore_xam_comp(config, params):
 def run_ms_build(config, params):
     csproj = config[params[0]]
     targets = config[params[1]]
-
-    configuration = config['configuration']
+    configuration = config[params[2]]
 
     print('Building : ' + csproj)
+    print('Targets : ' + str(targets))
     print('Configuration: ' + configuration)
 
     ms = MsBuilder(r'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe')
@@ -51,10 +52,19 @@ def run_ms_build(config, params):
     ms.build_with_params(csproj, targets=targets, properties=arg2)
 
 
+def grab_adb_logcat_results(config, params):
+    results_file = config[params[0]]
+
+    print('Grabbing results from logcat to file : ' + results_file)
+
+    adb = Adb()
+    adb.grab_results(results_file)
+
 dictionary = {'clean_directory': clean,
               'restore_nuget_packages': restore_nuget,
               'restore_xam_components': restore_xam_comp,
-              'msbuild_build_project': run_ms_build
+              'msbuild_build_project': run_ms_build,
+              'grab_logcat_results' : grab_adb_logcat_results
               }
 
 

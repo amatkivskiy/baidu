@@ -6,7 +6,7 @@ import shutil
 __author__ = 'maa'
 
 
-def run_command(args, ignoreReturnCode=False, is_shell=False):
+def run_command(args, ignoreReturnCode=False, is_shell=False, std_out=None):
     print('=' * 20)
     print('Printing command details')
 
@@ -17,7 +17,7 @@ def run_command(args, ignoreReturnCode=False, is_shell=False):
     print('*' * 20)
     print('=' * 20)
 
-    returnCode = subprocess.call(args, shell=is_shell)
+    returnCode = subprocess.call(args, shell=is_shell, stdout=std_out)
 
     if returnCode != 1:
         print('Successfully executed command')

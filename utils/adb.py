@@ -13,3 +13,11 @@ class Adb:
         params = [self.adb, 'install', '-r', path_to_apk]
 
         run_command(params)
+
+    def grab_results(self, results_file):
+        params = [self.adb, 'logcat', '-d']
+
+        with open(results_file, 'w') as file:
+            run_command(params, std_out=file)
+
+        pass
