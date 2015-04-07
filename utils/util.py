@@ -51,6 +51,16 @@ def check_if_port_is_open(ip, port):
 
     return result != 0
 
+
+def get_current_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(('8.8.8.8', 80))
+
+    ip = s.getsockname()[0]
+    s.close()
+
+    return ip
+
 def find_open_port(ip, starting_port, max_port):
     port = starting_port
 
