@@ -1,0 +1,26 @@
+---
+# Build script
+sln : 'AndroidTestsApp.sln'
+csproj: 'AndroidTestsApp\AndroidTestsApp.csproj'
+deployment_directory: 'deployment'
+configuration: 'Release;AdbTarget=-d -r'
+test_results_file: 'deployment\TestsResult.xml'
+main_test_activity_name: 'com.sample.tests.app/androidtestsapp.MainActivity'
+logcat_results_file: 'deployment\logs.txt'
+file_path: 'C:\Users\maa\Dropbox\Projects\baide\samples\AndroidTestsApp\TestConfiguration\TestResultsConfig.cs'
+file_template: 'file_templates_folder\t_TestResultsConfig.txt'
+nuget: '..\utils\.nuget\NuGet.exe'
+xamarin_component: '..\utils\xamarin-component\xamarin-component.exe'
+touch_server_exe: '..\utils\Touch.Server.Android.exe'
+targets:
+    - Clean
+    - Install
+tasks:
+    - clean_directory(deployment_directory)
+    - fulfill_file_template(file_template, file_path)
+    - restore_nuget_packages(sln)
+    - restore_xam_components(sln)
+    - msbuild_build_project(csproj, targets, configuration)
+    - run_android_nunit_tests(csproj, test_results_file)
+    - grab_logcat_results(logcat_results_file)
+# finish
