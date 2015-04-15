@@ -1,7 +1,10 @@
 import sys
 import re
+
 import yaml
+
 from commands import dictionary
+
 
 __author__ = 'maa'
 
