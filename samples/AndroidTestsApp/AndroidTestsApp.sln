@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidTestsApp", "AndroidTestsApp\AndroidTestsApp.csproj", "{7885B2A1-8AC5-4CC3-92DB-03CEFC84DC14}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CustomTestConfiguration", "TestConfiguration\CustomTestConfiguration.shproj", "{6687F381-77B9-4C70-9E43-6916FA6FF5AB}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		TestConfiguration\TestConfiguration.projitems*{7885b2a1-8ac5-4cc3-92db-03cefc84dc14}*SharedItemsImports = 4
+		TestConfiguration\TestConfiguration.projitems*{6687f381-77b9-4c70-9e43-6916fa6ff5ab}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -15,5 +21,8 @@ Global
 		{7885B2A1-8AC5-4CC3-92DB-03CEFC84DC14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7885B2A1-8AC5-4CC3-92DB-03CEFC84DC14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7885B2A1-8AC5-4CC3-92DB-03CEFC84DC14}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

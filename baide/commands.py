@@ -67,12 +67,10 @@ def run_tests(config, params):
     t_server_exe = config['touch_server_exe']
 
 
-    activity = 'MobileSDK_Android_Unit_Tests.MobileSDK_Android_Unit_Tests/mobilesdkandroidtests.MainActivity'
-    logfile = 'UnitTests.xml'
-    logpath = 'deployment'
+    activity = config['main_test_activity_name']
+    logfile = config['test_results_file']
 
-    run(touch_server_exe_path=t_server_exe, ip=ip, port=open_port, auto_exit=True, activity=activity, log_file=logfile,
-        log_path=logpath)
+    run(touch_server_exe_path=t_server_exe, ip=ip, port=open_port, auto_exit=True, activity=activity, log_file=logfile)
 
     pass
 

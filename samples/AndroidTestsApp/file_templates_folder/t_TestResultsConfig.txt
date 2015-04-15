@@ -1,4 +1,4 @@
-namespace MobileSDKAndroidTests
+namespace CustomAndroidTestsConfiguration
 {
   using Android.Util;
 
