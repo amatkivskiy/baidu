@@ -1,0 +1,18 @@
+---
+# Build script
+sln : 'AndroidApp\AndroidApp.sln'
+csproj: 'AndroidApp\AndroidApp.csproj'
+deployment_directory: 'deployment'
+deployment_directory: 'deployment'
+configuration: 'Release;AdbTarget=-d -r'
+nuget: '..\utils\.nuget\NuGet.exe'
+xamarin_component: '..\utils\xamarin-component\xamarin-component.exe'
+targets:
+    - Clean
+    - Install
+tasks:
+    - clean_directory(deployment_directory)
+    - restore_nuget_packages(sln)
+    - restore_xam_components(sln)
+    - msbuild_build_project(csproj, targets, configuration)
+# finish
