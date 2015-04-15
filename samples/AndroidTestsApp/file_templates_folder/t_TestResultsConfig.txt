@@ -1,0 +1,26 @@
+namespace MobileSDKAndroidTests
+{
+  using Android.Util;
+
+  public class TestResultsConfig
+  {
+    private static readonly string Tag = typeof(TestResultsConfig).Name;
+
+    public const bool IsAutomated = $is_automated;
+    public const bool IsRemote = $is_remote;
+
+    public const string RemoteServerIp = "$ip";
+    public const int RemoteServerPort = $port;
+
+    public const string TestsResultsFormat = "$format";
+
+    public static void PrintConfig()
+    {
+      Log.Info(Tag, "IsRemote : {0}", IsRemote);
+      Log.Info(Tag, "IsAutomated : {0}", IsAutomated);
+      Log.Info(Tag, "RemoteServerIp : {0}", RemoteServerIp);
+      Log.Info(Tag, "RemoteServerPort : {0}", RemoteServerPort);
+      Log.Info(Tag, "TestsResultsFormat : {0}", TestsResultsFormat);
+    }
+  }
+}

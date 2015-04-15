@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidTestsApp", "AndroidTestsApp.csproj", "{7885B2A1-8AC5-4CC3-92DB-03CEFC84DC14}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidTestsApp", "AndroidTestsApp\AndroidTestsApp.csproj", "{7885B2A1-8AC5-4CC3-92DB-03CEFC84DC14}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CustomTestConfiguration", "TestConfiguration\CustomTestConfiguration.shproj", "{6687F381-77B9-4C70-9E43-6916FA6FF5AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
