@@ -56,3 +56,5 @@ target/
 obj
 bin
 *.userprefs
+*.suo
+*.user
