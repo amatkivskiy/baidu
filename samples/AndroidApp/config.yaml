@@ -3,7 +3,6 @@
 sln : 'AndroidApp\AndroidApp.sln'
 csproj: 'AndroidApp\AndroidApp.csproj'
 deployment_directory: 'deployment'
-deployment_directory: 'deployment'
 configuration: 'Release;AdbTarget=-d -r'
 nuget: '..\utils\.nuget\NuGet.exe'
 xamarin_component: '..\utils\xamarin-component\xamarin-component.exe'
