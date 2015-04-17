@@ -7,7 +7,7 @@ using CustomAndroidTestsConfiguration;
 
 namespace AndroidTestsApp
 {
-  [Activity(Label = "AndroidTestsApp", MainLauncher = true)]
+  [Activity(Name = "com.sample.tests.app.MainActivity", Label = "AndroidTestsApp", MainLauncher = true)]
   public class MainActivity : ConfigurableTestActivity
   {
   }
