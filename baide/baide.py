@@ -30,11 +30,8 @@ if __name__ == '__main__':
     p = re.compile('\((.*?)\)')
 
     for task in config['tasks']:
-        params = p.findall(task)[0].split(',')
+        task_name = list(task.keys())[0]
 
-        params = [param.strip() for param in params]
-
-        task_name = split_task_name(task)
+        params = task[task_name]
         run_function(task_name, config, params)
-
     pass

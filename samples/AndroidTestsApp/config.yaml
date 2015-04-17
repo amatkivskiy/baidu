@@ -5,7 +5,7 @@ csproj: 'AndroidTestsApp\AndroidTestsApp.csproj'
 deployment_directory: 'deployment'
 configuration: 'Release;AdbTarget=-d -r'
 test_results_file: 'deployment\TestsResult.xml'
-main_test_activity_name: 'com.sample.tests.app/androidtestsapp.MainActivity'
+main_test_activity_name: 'com.sample.tests.app/md5dad838ec2e487fa845681d333ab05fb4.MainActivity'
 logcat_results_file: 'deployment\logs.txt'
 file_path: 'C:\Users\maa\Dropbox\Projects\baide\samples\AndroidTestsApp\TestConfiguration\TestResultsConfig.cs'
 file_template: 'file_templates_folder\t_TestResultsConfig.txt'
@@ -16,11 +16,28 @@ targets:
     - Clean
     - Install
 tasks:
-    - clean_directory(deployment_directory)
-    - fulfill_file_template(file_template, file_path)
-    - restore_nuget_packages(sln)
-    - restore_xam_components(sln)
-    - msbuild_build_project(csproj, targets, configuration)
-    - run_android_nunit_tests(csproj, test_results_file)
-    - grab_logcat_results(logcat_results_file)
+    - clean_directory:
+        - directory: 'deployment'
+    - fulfill_file_template:
+        - ip: 10.38.10.134
+        - port: 55555
+        - is_automated: true
+        - is_remote: true
+        - format: nunit2
+        - template: file_template
+        - destination: file_path
+    - restore_nuget_packages:
+        - nuget_exe : nuget
+        - solution: sln
+#    - restore_xam_components:
+#        - solution: sln
+#    - msbuild_build_project:
+#        - project: csproj
+#        - targets : targets
+#        - configuration: configuration
+#    - run_android_nunit_tests:
+#        - activity: main_test_activity_name
+#        - results_file : test_results_file
+#    - grab_logcat_results:
+#        - log_file: logcat_results_file
 # finish
