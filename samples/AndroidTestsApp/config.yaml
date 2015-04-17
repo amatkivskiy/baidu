@@ -5,7 +5,7 @@ csproj: 'AndroidTestsApp\AndroidTestsApp.csproj'
 deployment_directory: 'deployment'
 configuration: 'Release;AdbTarget=-d -r'
 test_results_file: 'deployment\TestsResult.xml'
-main_test_activity_name: 'com.sample.tests.app/md5dad838ec2e487fa845681d333ab05fb4.MainActivity'
+main_test_activity_name: 'com.sample.tests.app/com.sample.tests.app.MainActivity'
 logcat_results_file: 'deployment\logs.txt'
 file_path: 'C:\Users\maa\Dropbox\Projects\baide\samples\AndroidTestsApp\TestConfiguration\TestResultsConfig.cs'
 file_template: 'file_templates_folder\t_TestResultsConfig.txt'
@@ -29,15 +29,19 @@ tasks:
     - restore_nuget_packages:
         - nuget_exe : nuget
         - solution: sln
-#    - restore_xam_components:
-#        - solution: sln
-#    - msbuild_build_project:
-#        - project: csproj
-#        - targets : targets
-#        - configuration: configuration
-#    - run_android_nunit_tests:
-#        - activity: main_test_activity_name
-#        - results_file : test_results_file
-#    - grab_logcat_results:
-#        - log_file: logcat_results_file
+    - restore_xam_components:
+        - xam_exe: xamarin_component
+        - solution: sln
+    - msbuild_build_project:
+        - project: csproj
+        - targets : targets
+        - configuration: configuration
+    - run_android_nunit_tests:
+        - touch_server: touch_server_exe
+        - activity: main_test_activity_name
+        - results_file : test_results_file
+        - ip: 10.38.10.134
+        - port: 55555
+    - grab_logcat_results:
+        - log_file: logcat_results_file
 # finish

@@ -51,8 +51,9 @@ def fulfill_file_template(config, params):
 
 
 def restore_xam_comp(config, params):
-    sln = config[params[0]]
-    xam_component_path = config['xamarin_component']
+    check_if_all_params_specified(params, 'solution', 'xam_exe')
+    xam_component_path = get_param_value('xam_exe', params, config)
+    sln = get_param_value('solution', params, config)
 
     print('xamarin-component.exe path: ' + xam_component_path)
     print('Restoring nuget packages: ' + sln)
@@ -62,9 +63,10 @@ def restore_xam_comp(config, params):
 
 
 def run_ms_build(config, params):
-    csproj = config[params[0]]
-    targets = config[params[1]]
-    configuration = config[params[2]]
+    check_if_all_params_specified(params, 'project', 'targets', 'configuration')
+    csproj = get_param_value('project', params, config)
+    targets = get_param_value('targets', params, config)
+    configuration = get_param_value('configuration', params, config)
 
     print('Building : ' + csproj)
     print('Targets : ' + str(targets))
@@ -77,24 +79,28 @@ def run_ms_build(config, params):
     ms.build_with_params(csproj, targets=targets, properties=arg2)
 
 
+def run_tests(config, params):
+    check_if_all_params_specified(params, 'touch_server', 'activity', 'results_file', 'ip', 'port')
+
+    activity = get_param_value('activity', params, config)
+    logfile = get_param_value('results_file', params, config)
+    ip = get_param_value('ip', params, config)
+    port = get_param_value('port', params, config)
+    t_server_exe = get_param_value('touch_server', params, config)
+
+    run(touch_server_exe_path=t_server_exe, ip=ip, port=port, auto_exit=True, activity=activity, log_file=logfile)
+
+    pass
+
+
 def grab_adb_logcat_results(config, params):
-    results_file = config[params[0]]
+    check_if_all_params_specified(params, 'log_file')
+    results_file = get_param_value('log_file', params, config)
 
     print('Grabbing results from logcat to file : ' + results_file)
 
     adb = Adb()
     adb.grab_results(results_file)
-
-
-def run_tests(config, params):
-    t_server_exe = config['touch_server_exe']
-
-    activity = config['main_test_activity_name']
-    logfile = config['test_results_file']
-
-    run(touch_server_exe_path=t_server_exe, ip=ip, port=open_port, auto_exit=True, activity=activity, log_file=logfile)
-
-    pass
 
 
 def is_param_in_config(param, config):
