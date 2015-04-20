@@ -2,11 +2,9 @@ from utils.adb import Adb
 from utils.files_provider import create_and_full_fill_file
 from utils.msbuilder import MsBuilder
 from utils.nuget import NuGet
-from utils.util import create_or_clean_folder, find_open_port
+from utils.util import create_or_clean_folder
 from utils.xamarin_component import XamComponent
-from utils.util import get_current_ip
 from utils.touch_server import run
-import ast
 
 __author__ = 'maa'
 
@@ -20,6 +18,7 @@ def clean(config, params):
 
     pass
 
+
 def restore_nuget(config, params):
     check_if_all_params_specified(params, 'solution', 'nuget_exe')
     nuget_path = get_param_value('nuget_exe', params, config)
@@ -31,8 +30,10 @@ def restore_nuget(config, params):
     nuGet = NuGet(nuget_path)
     nuGet.restore_nuget_packages(sln)
 
+
 def fulfill_file_template(config, params):
-    check_if_all_params_specified(params, 'template', 'destination', 'ip', 'port', 'is_automated', 'is_remote', 'format')
+    check_if_all_params_specified(params, 'template', 'destination', 'ip', 'port', 'is_automated', 'is_remote',
+                                  'format')
 
     template_file = get_param_value('template', params, config)
     destination = get_param_value('destination', params, config)
@@ -118,19 +119,30 @@ def check_if_all_params_specified(params, *args):
 
 
 def get_param_value(param_name, params, config):
-        for param in params:
-            if param_name in param.keys():
-                param_value = param[param_name]
+    for param in params:
+        if param_name in param.keys():
+            param_value = param[param_name]
+            if type(param_value) is str and '$' in param_value:
+                param_value = get_param_value_with_variable(config, param_value)
+            else:
+                param_value = str(param_value).replace('\'', '')
 
-                if is_param_in_config(param_value, config):
-                    param_value = config[param_value]
-                else:
-                    param_value = str(param_value).replace('\'', '')
-
-                return  param_value
-
+            return param_value
 
 
+def get_param_value_with_variable(config, param_value):
+    dollar_index = param_value.find('$')
+    parenthesis_open = str(param_value).find('(', dollar_index)
+    parenthesis_close = str(param_value).find(')', parenthesis_open)
+
+    extracted_param_name = param_value[parenthesis_open + 1:parenthesis_close]
+
+    if is_param_in_config(extracted_param_name, config):
+        variable_value = config[extracted_param_name]
+
+        return str(param_value).replace('$(' + extracted_param_name + ')', variable_value)
+    else:
+        raise ValueError('Can\'t find variable {0} in config root. Have you specified it?'.format(extracted_param_name))
 
 
 dictionary = {'clean_directory': clean,
