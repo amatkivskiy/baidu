@@ -1,9 +1,6 @@
 ---
 # Build script
 sln : 'AndroidTestsApp.sln'
-targets:
-    - Clean
-    - Install
 nuget: '..\utils\.nuget\NuGet.exe'
 xamarin_component: '..\utils\xamarin-component\xamarin-component.exe'
 touch_server_exe: '..\utils\Touch.Server.Android.exe'
@@ -26,7 +23,7 @@ tasks:
         - solution: sln
     - msbuild_build_project:
         - project: 'AndroidTestsApp\AndroidTestsApp.csproj'
-        - targets : targets
+        - targets : 'Clean,Install'
         - configuration: 'Release;AdbTarget=-d -r'
     - run_android_nunit_tests:
         - touch_server: touch_server_exe

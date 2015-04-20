@@ -20,7 +20,7 @@ class MsBuilder:
         start = datetime.datetime.now()
         print('STARTED BUILD - ' + start.strftime('%Y-%m-%d %H:%M:%S'))
 
-        params = [self.msbuild, csprojPath];
+        params = [self.msbuild, csprojPath]
 
         params.append('/t:' + ';'.join(targets))
         params.append('/p:' + ';'.join(properties))

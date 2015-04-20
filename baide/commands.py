@@ -76,7 +76,7 @@ def run_ms_build(config, params):
 
     arg2 = ['Configuration=' + configuration]
 
-    ms.build_with_params(csproj, targets=targets, properties=arg2)
+    ms.build_with_params(csproj, targets=targets.split(','), properties=arg2)
 
 
 def run_tests(config, params):
