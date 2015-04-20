@@ -17,4 +17,7 @@ tasks:
         - project: 'AndroidApp\AndroidApp.csproj'
         - targets : 'Clean,SignAndroidPackage'
         - configuration: 'Release'
+    - copy_artifacts:
+        - from: 'AndroidApp\bin\Release\com.sample.android.app-Signed.apk'
+        - to: '$(deployment_directory)\com.sample.android.app.apk'
 # finish

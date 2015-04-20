@@ -1,3 +1,4 @@
+import shutil
 from utils.adb import Adb
 from utils.files_provider import create_and_full_fill_file
 from utils.msbuilder import MsBuilder
@@ -103,6 +104,15 @@ def grab_adb_logcat_results(config, params):
     adb = Adb()
     adb.grab_results(results_file)
 
+def copy_artifacts(config, params):
+    check_if_all_params_specified(params, 'from', 'to')
+
+    from_file = get_param_value('from', params, config)
+    to_file = get_param_value('to', params, config)
+
+    print('Coping file {0} to {1}'.format(from_file, to_file))
+
+    shutil.copyfile(from_file, to_file)
 
 def is_param_in_config(param, config):
     return param in config
@@ -151,6 +161,7 @@ dictionary = {'clean_directory': clean,
               'msbuild_build_project': run_ms_build,
               'grab_logcat_results': grab_adb_logcat_results,
               'run_android_nunit_tests': run_tests,
-              'fulfill_file_template': fulfill_file_template
+              'fulfill_file_template': fulfill_file_template,
+              'copy_artifacts': copy_artifacts
               }
 
