@@ -21,10 +21,15 @@ def split_task_name(task_name):
     return task_name[:start_index]
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 3:
         raise EnvironmentError('Please provide config file for script.')
 
-    stream = open(sys.argv[1], 'r')
+    command = sys.argv[1]
+    if 'doit' != command:
+        print('Baide: I don\'t know what you mean :(')
+        quit()
+
+    stream = open(sys.argv[2], 'r')
     config = yaml.load(stream)
 
     p = re.compile('\((.*?)\)')
