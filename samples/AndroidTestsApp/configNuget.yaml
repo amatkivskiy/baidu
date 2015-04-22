@@ -1,0 +1,43 @@
+---
+# Build script
+sln : 'AndroidTestsApp.sln'
+nuget: '..\utils\.nuget\NuGet.exe'
+xamarin_component: '..\utils\xamarin-component\xamarin-component.exe'
+touch_server_exe: '..\utils\Touch.Server.Android.exe'
+deployment_directory: 'deployment'
+tasks:
+    - manage_nuget_sources:
+        - nuget_config_file: '%(AppData)\NuGet\NuGet.Config'
+        - custom_source_directory: '%(WORKSPACE)\$(deployment_directory)'
+        - custom_source_name: 'TempNugetRepo'
+    - restore_changed_nuget_config:
+        - nuget_config_file: '%(AppData)\NuGet\NuGet.Config'
+    - clean_directory:
+        - directory: $(deployment_directory)
+    - fulfill_file_template:
+        - ip: 10.38.10.134
+        - port: 55555
+        - is_automated: true
+        - is_remote: true
+        - format: nunit2
+        - template: 'file_templates_folder\t_TestResultsConfig.txt'
+        - destination: 'C:\Users\maa\Dropbox\Projects\baidu\samples\AndroidTestsApp\TestConfiguration\TestResultsConfig.cs'
+    - restore_nuget_packages:
+        - nuget_exe : $(nuget)
+        - solution: $(sln)
+    - restore_xam_components:
+        - xam_exe: $(xamarin_component)
+        - solution: $(sln)
+    - msbuild_build_project:
+        - project: 'AndroidTestsApp\AndroidTestsApp.csproj'
+        - targets : 'Clean,Install'
+        - configuration: 'ReleaseAdbTarget=-d -r'
+    - run_android_nunit_tests:
+        - touch_server: $(touch_server_exe)
+        - activity: 'com.sample.tests.app/com.sample.tests.app.MainActivity'
+        - results_file : '$(deployment_directory)\TestsResult.xml'
+        - ip: 10.38.10.134
+        - port: 55555
+    - grab_logcat_results:
+        - log_file: '$(deployment_directory)\logs.txt'
+# finish

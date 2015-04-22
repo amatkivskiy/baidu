@@ -115,6 +115,32 @@ def copy_artifacts(config, params):
 
     shutil.copyfile(from_file, to_file)
 
+def manage_nuget_sources(config, params):
+    check_if_all_params_specified(params, 'nuget_config_file', 'custom_source_directory', 'custom_source_name')
+
+    config_file = get_param_value('nuget_config_file', params, config)
+    directory = get_param_value('custom_source_directory', params, config)
+    name = get_param_value('custom_source_name', params, config)
+
+    print('Config file : {0}, directory : {1}, name : {2}'.format(config_file, directory, name))
+
+    os.rename(config_file, config_file + '.orig')
+
+    kwargs = {'source_name': name, 'source_directory': directory}
+    create_and_full_fill_file(r'..\utils\t_NuGet.Config', config_file, kwargs)
+
+def restore_changed_nuget_config(config, params):
+    check_if_all_params_specified(params, 'nuget_config_file')
+
+    config_file = get_param_value('nuget_config_file', params, config)
+
+    print('Config file : {0}.'.format(config_file))
+
+    os.remove(config_file)
+    os.rename(config_file + '.orig', config_file)
+
+    pass
+
 def clear_xamarin_cache(config, params):
     clean_xamarin_cache()
     pass
@@ -187,5 +213,7 @@ dictionary = {'clean_directory': clean_directory,
               'fulfill_file_template': fulfill_file_template,
               'copy_artifacts': copy_artifacts,
               'clear_xamarin_cache': clear_xamarin_cache,
+              'manage_nuget_sources': manage_nuget_sources,
+              'restore_changed_nuget_config': restore_changed_nuget_config,
               }
 
