@@ -15,7 +15,7 @@ tasks:
         - is_remote: true
         - format: nunit2
         - template: 'file_templates_folder\t_TestResultsConfig.txt'
-        - destination: 'C:\Users\maa\Dropbox\Projects\baide\samples\AndroidTestsApp\TestConfiguration\TestResultsConfig.cs'
+        - destination: 'C:\Users\maa\Dropbox\Projects\baidu\samples\AndroidTestsApp\TestConfiguration\TestResultsConfig.cs'
     - restore_nuget_packages:
         - nuget_exe : $(nuget)
         - solution: $(sln)

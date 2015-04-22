@@ -3,7 +3,7 @@ from utils.adb import Adb
 from utils.files_provider import create_and_full_fill_file
 from utils.msbuilder import MsBuilder
 from utils.nuget import NuGet
-from utils.util import create_or_clean_folder
+from utils.util import create_or_clean_folder, clean_xamarin_cache
 from utils.xamarin_component import XamComponent
 from utils.touch_server import run
 
@@ -114,6 +114,10 @@ def copy_artifacts(config, params):
 
     shutil.copyfile(from_file, to_file)
 
+def clear_xamarin_cache(config, params):
+    clean_xamarin_cache()
+    pass
+
 def is_param_in_config(param, config):
     return param in config
 
@@ -162,6 +166,7 @@ dictionary = {'clean_directory': clean,
               'grab_logcat_results': grab_adb_logcat_results,
               'run_android_nunit_tests': run_tests,
               'fulfill_file_template': fulfill_file_template,
-              'copy_artifacts': copy_artifacts
+              'copy_artifacts': copy_artifacts,
+              'clear_xamarin_cache': clear_xamarin_cache
               }
 

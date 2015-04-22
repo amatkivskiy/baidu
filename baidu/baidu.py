@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
     command = sys.argv[1]
     if 'doit' != command:
-        print('Baide: I don\'t know what you mean :(')
+        print('baidu: I don\'t know what you mean :(')
         quit()
 
     stream = open(sys.argv[2], 'r')

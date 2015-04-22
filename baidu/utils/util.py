@@ -43,6 +43,12 @@ def create_or_clean_folder(folder_path):
     pass
 
 
+def clean_xamarin_cache():
+    path = os.getenv('LOCALAPPDATA') + r"\Xamarin\Cache"
+    print('Deleting folder : ' + path)
+    shutil.rmtree(path, True)
+
+
 def check_if_port_is_open(ip, port):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -60,6 +66,7 @@ def get_current_ip():
     s.close()
 
     return ip
+
 
 def find_open_port(ip, starting_port, max_port):
     port = starting_port
