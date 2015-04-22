@@ -1,3 +1,4 @@
+import os
 import shutil
 from utils.adb import Adb
 from utils.files_provider import create_and_full_fill_file
@@ -10,7 +11,7 @@ from utils.touch_server import run
 __author__ = 'maa'
 
 
-def clean(config, params):
+def clean_directory(config, params):
     check_if_all_params_specified(params, 'directory')
     directory = get_param_value('directory', params, config)
 
@@ -136,12 +137,30 @@ def get_param_value(param_name, params, config):
     for param in params:
         if param_name in param.keys():
             param_value = param[param_name]
-            if type(param_value) is str and '$' in param_value:
+
+            if type(param_value) is str and '$(' in param_value:
                 param_value = get_param_value_with_variable(config, param_value)
-            else:
-                param_value = str(param_value).replace('\'', '')
+
+            if type(param_value) is str and '%(' in param_value:
+                param_value = get_param_value_from_env(param_value)
+
+            param_value = str(param_value).replace('\'', '')
 
             return param_value
+
+
+def get_param_value_from_env(param_value):
+    percent_index = param_value.find('%')
+    parenthesis_open = str(param_value).find('(', percent_index)
+    parenthesis_close = str(param_value).find(')', parenthesis_open)
+
+    extracted_param_name = param_value[parenthesis_open + 1:parenthesis_close]
+
+    result = os.environ.get(extracted_param_name)
+    if result is None:
+        raise ValueError('There is no "{0}" environment variable.'.format(extracted_param_name))
+
+    return str(param_value).replace('%(' + extracted_param_name + ')', result)
 
 
 def get_param_value_with_variable(config, param_value):
@@ -159,7 +178,7 @@ def get_param_value_with_variable(config, param_value):
         raise ValueError('Can\'t find variable {0} in config root. Have you specified it?'.format(extracted_param_name))
 
 
-dictionary = {'clean_directory': clean,
+dictionary = {'clean_directory': clean_directory,
               'restore_nuget_packages': restore_nuget,
               'restore_xam_components': restore_xam_comp,
               'msbuild_build_project': run_ms_build,
@@ -167,6 +186,6 @@ dictionary = {'clean_directory': clean,
               'run_android_nunit_tests': run_tests,
               'fulfill_file_template': fulfill_file_template,
               'copy_artifacts': copy_artifacts,
-              'clear_xamarin_cache': clear_xamarin_cache
+              'clear_xamarin_cache': clear_xamarin_cache,
               }
 
