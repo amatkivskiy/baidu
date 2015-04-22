@@ -10,8 +10,7 @@ tasks:
         - nuget_config_file: '%(AppData)\NuGet\NuGet.Config'
         - custom_source_directory: '%(WORKSPACE)\$(deployment_directory)'
         - custom_source_name: 'TempNugetRepo'
-    - restore_changed_nuget_config:
-        - nuget_config_file: '%(AppData)\NuGet\NuGet.Config'
+        - template_file: '..\utils\t_NuGet.Config'
     - clean_directory:
         - directory: $(deployment_directory)
     - fulfill_file_template:
@@ -40,4 +39,6 @@ tasks:
         - port: 55555
     - grab_logcat_results:
         - log_file: '$(deployment_directory)\logs.txt'
+    - restore_changed_nuget_config:
+        - nuget_config_file: '%(AppData)\NuGet\NuGet.Config'
 # finish

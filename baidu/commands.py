@@ -116,18 +116,19 @@ def copy_artifacts(config, params):
     shutil.copyfile(from_file, to_file)
 
 def manage_nuget_sources(config, params):
-    check_if_all_params_specified(params, 'nuget_config_file', 'custom_source_directory', 'custom_source_name')
+    check_if_all_params_specified(params, 'nuget_config_file', 'custom_source_directory', 'custom_source_name', 'template_file')
 
     config_file = get_param_value('nuget_config_file', params, config)
     directory = get_param_value('custom_source_directory', params, config)
     name = get_param_value('custom_source_name', params, config)
+    template_file = get_param_value('template_file', params, config)
 
     print('Config file : {0}, directory : {1}, name : {2}'.format(config_file, directory, name))
 
     os.rename(config_file, config_file + '.orig')
 
     kwargs = {'source_name': name, 'source_directory': directory}
-    create_and_full_fill_file(r'..\utils\t_NuGet.Config', config_file, kwargs)
+    create_and_full_fill_file(template_file, config_file, kwargs)
 
 def restore_changed_nuget_config(config, params):
     check_if_all_params_specified(params, 'nuget_config_file')
